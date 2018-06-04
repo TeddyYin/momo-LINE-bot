@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   get '/gui/response_body', to: 'gui#show_response_body'
 
   get '/gui/sent_request', to: 'gui#sent_request'
+  post '/gui/webhook', to: 'gui#webhook'
 end
