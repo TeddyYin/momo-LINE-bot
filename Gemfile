@@ -30,6 +30,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# line
+gem 'line-bot-api'
+
 group :production do
   gem 'pg', '~> 0.15'
   gem 'rails_12factor'
