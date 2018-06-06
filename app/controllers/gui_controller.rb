@@ -7,7 +7,7 @@ class GuiController < ApplicationController
     reply_text = learn(received_text)
 
     # 關鍵字回覆
-    reply_text = keyword_reply(received_text) if reply_text.nil?
+    reply_text = keyword_reply(channel_id, received_text) if reply_text.nil?
 
     # 推齊
     reply_text = echo2(channel_id, received_text) if reply_text.nil?
@@ -73,12 +73,14 @@ class GuiController < ApplicationController
     keyword = received_text[0..semicolon_index-1]
     message = received_text[semicolon_index+1..-1]
 
-    KeywordMapping.create(keyword: keyword, message: message)
-    '好哦～好哦～'
+    KeywordMapping.create(channel_id: channel_id, keyword: keyword, message: message)
+    '你說#{keyword}，我會說#{message}'
   end
 
   # 關鍵字回覆
   def keyword_reply(received_text)
+    message = KeywordMapping.where(channel_id: channel_id, keyword: received_text).last&.message
+    return message unless message.nil?
     KeywordMapping.where(keyword: received_text).last&.message
   end
 
