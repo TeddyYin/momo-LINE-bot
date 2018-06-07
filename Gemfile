@@ -33,6 +33,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # line
 gem 'line-bot-api'
 
+#member system
+gem 'devise'
+
 group :production do
   gem 'pg', '~> 0.15'
   gem 'rails_12factor'
