@@ -8,7 +8,9 @@ class PushMessagesController < ApplicationController
   # POST /push_messages
   def create
     text = params[:text]
+    Rails.logger.debug("push message : #{params[:text]}")
     Channel.all.each do |channel|
+      Rails.logger.debug("  channel id : #{channel.channel_id}")
       push_to_line(channel.channel_id, text)
     end
     redirect_to '/push_messages/new'
