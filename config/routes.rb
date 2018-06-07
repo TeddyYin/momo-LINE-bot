@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :keyword_mappings
-  resources :push_messages, only: [:new, :create]
+  # resources :push_messages, only: [:new, :create]
+  get 'push_messages/new', to: 'push_messages#new'
+  post 'push_messages/new', to: 'push_messages#create'
+
+
+
   get '/gui/eat', to: 'gui#eat'
   get '/gui/request_headers', to: 'gui#request_headers'
   get '/gui/request_body', to: 'gui#request_body'
