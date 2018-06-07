@@ -3,6 +3,9 @@ class GuiController < ApplicationController
   protect_from_forgery with: :null_session
 
   def webhook
+    # 紀錄頻道
+    Channel.find_or_create_by(channel_id: channel_id)
+
     # 學說話
     reply_text = learn(received_text)
 
