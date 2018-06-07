@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :users
+  resources :keyword_mappings
   get '/gui/eat', to: 'gui#eat'
   get '/gui/request_headers', to: 'gui#request_headers'
   get '/gui/request_body', to: 'gui#request_body'
