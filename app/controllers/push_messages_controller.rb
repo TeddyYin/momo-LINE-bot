@@ -9,36 +9,21 @@ class PushMessagesController < ApplicationController
   def create
     text = params[:message]
     channel_id = params[:channel_id]
+    Rails.logger.debug("push message : #{params[:message]}")
+    Rails.logger.debug("  channel id : #{params[:channel_id]}")
 
     if text == '下麵'
       upload_to_imgur
-      push_to_line_image(channel_id, upload_to_imgur)
+      sent_image_to_line(channel_id, upload_to_imgur)
     else
-      Rails.logger.debug("push message : #{params[:message]}")
-      Rails.logger.debug("  channel id : #{params[:channel_id]}")
-      push_to_line(channel_id, text)
-
+      sent_message_to_line(channel_id, text)
       Channel.all.each do |channel|
         Rails.logger.debug("===========================")
         Rails.logger.debug("channel    : #{channel.inspect}")
         Rails.logger.debug("channel id : #{channel.channel_id}")
         Rails.logger.debug("===========================")
-        # push_to_line(channel.channel_id, text)
       end
     end
-
-    # channel_id = params[:channel_id]
-    # Rails.logger.debug("push message : #{params[:message]}")
-    # Rails.logger.debug("  channel id : #{params[:channel_id]}")
-    # push_to_line(channel_id, text)
-
-    # Channel.all.each do |channel|
-    #   Rails.logger.debug("===========================")
-    #   Rails.logger.debug("channel    : #{channel.inspect}")
-    #   Rails.logger.debug("channel id : #{channel.channel_id}")
-    #   Rails.logger.debug("===========================")
-    #   # push_to_line(channel.channel_id, text)
-    # end
 
     redirect_to '/push_messages/new'
   end
@@ -61,8 +46,8 @@ class PushMessagesController < ApplicationController
     end
   end
 
-  # 傳送訊息到 line
-  def push_to_line_image(channel_id, reply_image)
+  # 傳送圖片到 line
+  def sent_image_to_line(channel_id, reply_image)
     return nil if channel_id.nil? or reply_image.nil?
 
     # 設定回覆訊息
@@ -77,7 +62,7 @@ class PushMessagesController < ApplicationController
   end
 
   # 傳送訊息到 line
-  def push_to_line(channel_id, text)
+  def sent_message_to_line(channel_id, text)
     return nil if channel_id.nil? or text.nil?
 
     # 設定回覆訊息
