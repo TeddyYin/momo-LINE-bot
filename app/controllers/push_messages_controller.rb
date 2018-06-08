@@ -9,19 +9,71 @@ class PushMessagesController < ApplicationController
   def create
     text = params[:message]
     channel_id = params[:channel_id]
-    Rails.logger.debug("push message : #{params[:message]}")
-    Rails.logger.debug("  channel id : #{params[:channel_id]}")
-    push_to_line(channel_id, text)
 
-    Channel.all.each do |channel|
-      Rails.logger.debug("===========================")
-      Rails.logger.debug("channel    : #{channel.inspect}")
-      Rails.logger.debug("channel id : #{channel.channel_id}")
-      Rails.logger.debug("===========================")
-      # push_to_line(channel.channel_id, text)
+    if text == '下麵'
+      upload_to_imgur
+      push_to_line_image(channel_id, upload_to_imgur)
+    else
+      Rails.logger.debug("push message : #{params[:message]}")
+      Rails.logger.debug("  channel id : #{params[:channel_id]}")
+      push_to_line(channel_id, text)
+
+      Channel.all.each do |channel|
+        Rails.logger.debug("===========================")
+        Rails.logger.debug("channel    : #{channel.inspect}")
+        Rails.logger.debug("channel id : #{channel.channel_id}")
+        Rails.logger.debug("===========================")
+        # push_to_line(channel.channel_id, text)
+      end
     end
 
+    # channel_id = params[:channel_id]
+    # Rails.logger.debug("push message : #{params[:message]}")
+    # Rails.logger.debug("  channel id : #{params[:channel_id]}")
+    # push_to_line(channel_id, text)
+
+    # Channel.all.each do |channel|
+    #   Rails.logger.debug("===========================")
+    #   Rails.logger.debug("channel    : #{channel.inspect}")
+    #   Rails.logger.debug("channel id : #{channel.channel_id}")
+    #   Rails.logger.debug("===========================")
+    #   # push_to_line(channel.channel_id, text)
+    # end
+
     redirect_to '/push_messages/new'
+  end
+
+  def upload_to_imgur
+    image_url = 'http://s2.cdn.xiachufang.com/957cfeb8b1ca11e59368893cac04a188.jpg?imageView2/2/w/620/interlace/1/q/90'
+    url = URI("https://api.imgur.com/3/image")
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    request = Net::HTTP::Post.new(url)
+    request["authorization"] = 'Client-ID 7bf5a76e5d04727'
+
+    request.set_form_data({"image" => image_url})
+    response = http.request(request)
+    json = JSON.parse(response.read_body)
+    begin
+      json['data']['link'].gsub("http:","https:")
+    rescue
+      nil
+    end
+  end
+
+  # 傳送訊息到 line
+  def push_to_line_image(channel_id, reply_image)
+    return nil if channel_id.nil? or reply_image.nil?
+
+    # 設定回覆訊息
+    message = {
+      type: "image",
+      originalContentUrl: reply_image,
+      previewImageUrl: reply_image
+    }
+
+    # 傳送訊息
+    line.push_message(channel_id, message)
   end
 
   # 傳送訊息到 line
