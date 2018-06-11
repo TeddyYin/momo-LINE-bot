@@ -69,7 +69,7 @@ class PushMessagesController < ApplicationController
     message = {
       type: 'text',
       text: text
-    } 
+    }
 
     # 傳送訊息
     line.push_message(channel_id, message)
