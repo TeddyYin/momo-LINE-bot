@@ -1,21 +1,23 @@
-<h1><%= @channel_id %></h1>
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <td>#</td>
-      <td>Type</td>
-      <td>Content</td>
-      <td>created_at</td>
-    </tr>
-  </thead>
-  <tbody>
-    <% @channel_chat.each do |content| %>
+<div>
+  <h1><%= @channel_id %></h1>
+  <table class="table table-hover">
+    <thead>
       <tr>
         <td>#</td>
-        <td><%= content.model_name.name %></td>
-        <td><%= content.text %></td>
-        <td><%= content.created_at %></td>
+        <td>Type</td>
+        <td>Content</td>
+        <td>created_at</td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @channel_chat.each do |content| %>
+        <tr>
+          <td>#</td>
+          <td><%= content.model_name.name %></td>
+          <td><%= content.text %></td>
+          <td><%= content.created_at %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
