@@ -1,6 +1,6 @@
 class ChatContentController < ApplicationController
   def index
-    @channels = Channel.all.paginate(:page => params[:page], :per_page => 5)
+    @channels = Channel.all.paginate(:page => params[:page], :per_page => 10)
     @channels.each do |c|
       Rails.logger.debug("channel_id   = #{c.channel_id}")
       Rails.logger.debug("channel_name = #{c.channel_name}")
