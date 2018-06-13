@@ -36,6 +36,12 @@ gem 'line-bot-api'
 #member system
 gem 'devise'
 
+# paging
+gem "will_paginate"
+
+# Use bootstrap
+gem 'bootstrap-sass'
+
 group :production do
   gem 'pg', '~> 0.15'
   gem 'rails_12factor'
