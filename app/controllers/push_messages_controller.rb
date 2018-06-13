@@ -71,8 +71,17 @@ class PushMessagesController < ApplicationController
       text: text
     }
 
+    # 儲存回應
+    save_to_reply(channel_id, text)
+
     # 傳送訊息
     line.push_message(channel_id, message)
+  end
+
+  # 儲存回應
+  def save_to_reply(channel_id, reply_text)
+    return if reply_text.nil?
+    Reply.create(channel_id: channel_id, text: reply_text)
   end
 
   # Line Bot API 物件初始化

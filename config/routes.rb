@@ -15,4 +15,7 @@ Rails.application.routes.draw do
 
   get '/gui/sent_request', to: 'gui#sent_request'
   post '/gui/webhook', to: 'gui#webhook'
+
+  get 'chat_content', to: 'chat_content#index'
+  get 'chat_content/:id', to: 'chat_content#show', :as => 'chat_content_show'
 end

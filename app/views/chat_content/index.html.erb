@@ -1,0 +1,24 @@
+<div>
+  <h1>Chat list</h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <td>#</td>
+        <td>Id</td>
+        <td>Name</td>>
+      </tr>
+    </thead>
+    <tbody>
+      <% @channels.each do |channel| %>
+        <tr>
+          <td>#</td>
+          <td><%= channel.channel_id %></td>>
+          <td><%= link_to(channel.channel_name, chat_content_show_path(channel.channel_id)) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="text-center">
+    <%= will_paginate @channels %>
+  </div>
+</div>
