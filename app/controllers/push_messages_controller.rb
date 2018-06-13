@@ -3,6 +3,7 @@ class PushMessagesController < ApplicationController
 
   # GET /push_messages/new
   def new
+    @channels = Channel.all.paginate(:page => params[:page], :per_page => 10)
   end
 
   # POST /push_messages
@@ -19,8 +20,9 @@ class PushMessagesController < ApplicationController
       sent_message_to_line(channel_id, text)
       Channel.all.each do |channel|
         Rails.logger.debug("===========================")
-        Rails.logger.debug("channel    : #{channel.inspect}")
-        Rails.logger.debug("channel id : #{channel.channel_id}")
+        Rails.logger.debug("channel      : #{channel.inspect}")
+        Rails.logger.debug("channel id   : #{channel.channel_id}")
+        Rails.logger.debug("channel name : #{channel.channel_name}")
         Rails.logger.debug("===========================")
       end
     end
