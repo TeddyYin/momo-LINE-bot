@@ -1,9 +1,31 @@
-<%= form_tag(url: '/push_messages', local: true) do |form| %>
-  <%= text_area_tag 'channel_id' %>
-  <%= text_area_tag 'message' %>
-  <%= submit_tag "送出" %>
-<% end %>
-
-瑋 U28d7caa8bbb35751cc393a917486390e
-媛 U5014d7e334eafcab2dd2333a7c0782bc
-我 U04aa83ccc21fbd1c94524b196691ddc0
+<div class="col-md-12">
+  <h1>push messages</h1>
+  <%= form_tag(url: '/push_messages', local: true) do |form| %>
+    <p>channel id</p>
+    <%= text_area_tag 'channel_id' %>
+    <p>message</p>
+    <%= text_area_tag 'message' %>
+    <%= submit_tag "送出" %>
+  <% end %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <td>#</td>
+        <td>Id</td>
+        <td>Name</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @channels.each do |channel| %>
+        <tr>
+          <td>#</td>
+          <td><%= channel.channel_id %></td>
+          <td><%= channel.channel_name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="text-center">
+    <%= will_paginate @channels %>
+  </div>
+</div>
