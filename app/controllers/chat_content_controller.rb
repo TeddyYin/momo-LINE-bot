@@ -1,4 +1,5 @@
 class ChatContentController < ApplicationController
+  before_action :authenticate_user!
   def index
     @channels = Channel.all.paginate(:page => params[:page], :per_page => 10)
     @channels.each do |c|
